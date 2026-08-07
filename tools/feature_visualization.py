@@ -19,7 +19,7 @@ if str(TOOLS_ROOT) not in sys.path:
 def load_model(checkpoint_path=None, device="cuda"):
     from pytorch_model import FlowSegModel
 
-    checkpoint_path = checkpoint_path or REPO_ROOT / "checkpoints" / "flowseg_421m_swinh.pth"
+    checkpoint_path = checkpoint_path or REPO_ROOT / "checkpoints" / "swin_h.pth"
     checkpoint = torch.load(
         checkpoint_path, map_location="cpu", mmap=True, weights_only=True)
     state_dict = checkpoint.get("state_dict", checkpoint)

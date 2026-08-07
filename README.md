@@ -4,7 +4,8 @@ This repository provides a minimal inference-only demo for visualizing the
 dense features of the 421M-frame Swin-H model. The model is implemented in
 plain PyTorch; OpenMMLab packages are not required. The repository does not
 include the pretraining pipeline, video data, optical flow files,
-pseudo-labels, or downstream-task code.
+pseudo-labels, or downstream-task training checkpoints. An optional DCDepth
+downstream source tree is included under `downstream/DCDepth`.
 
 ## Requirements
 
@@ -17,8 +18,8 @@ pip install -r requirements.txt
 ## Checkpoint
 
 The inference-only checkpoint is about 3.0 GB after removing optimizer and
-scheduler states. It is stored at `checkpoints/flowseg_421m_swinh.pth` and is
-tracked with Git LFS.
+scheduler states. Download it to `checkpoints/swin_h.pth`; the file is tracked
+with Git LFS.
 
 ## Convert for DCDepth
 
@@ -28,15 +29,17 @@ PyTorch-only converter after downloading the release checkpoint:
 
 ```bash
 python tools/mmlab_to_swinv1.py \
-    checkpoints/flowseg_421m_swinh.pth \
-    /path/to/dcdepth_swinh_421m.pth
+    checkpoints/swin_h.pth \
+    downstream/DCDepth/checkpoints/swin_h.pth
 ```
 
 The converter renames the Swin stages and patch embedding, and applies the
 patch-merging channel-order permutation required by DCDepth. It writes a
 direct state dict compatible with DCDepth's `pretrained` argument and prints
-the output SHA-256. It does not require MMEngine, MMPretrain, or the original
-training repository. Add `--force` to overwrite an existing destination.
+the output SHA-256. The destination directory is already part of the
+repository and the generated file is ignored by Git. It does not require
+MMEngine, MMPretrain, or the original training repository. Add `--force` to
+overwrite an existing destination.
 
 ## Single-image inference
 

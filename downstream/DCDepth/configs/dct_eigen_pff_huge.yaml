@@ -19,7 +19,7 @@ model:
   type: 'DCTProg'
 
   encoder: 'huge07'
-  pretrain: '../../checkpoints/dcdepth_swinh_421m.pth'
+  pretrain: 'checkpoints/swin_h.pth'
 
   ape: false
   drop_path_rate: 0.3
