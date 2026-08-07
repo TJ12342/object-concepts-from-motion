@@ -1,0 +1,13 @@
+dataset:
+  name: 'nyu'
+  data_path: '/high_perf_store3/l3_data/lianghaoqian/l3_deep/haoqian.liang/datasets/NYUv2/sync/'
+  data_path_eval: '/high_perf_store3/l3_data/lianghaoqian/l3_deep/haoqian.liang/datasets/NYUv2/official_splits/test/'
+  input_width: 640
+  input_height: 480
+  min_depth: 0.1
+  max_depth: 10.0
+
+evaluation:
+  do_kb_crop: false
+  garg_crop: false
+  eigen_crop: true

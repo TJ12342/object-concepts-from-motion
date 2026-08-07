@@ -20,6 +20,24 @@ The inference-only checkpoint is about 3.0 GB after removing optimizer and
 scheduler states. It is stored at `checkpoints/flowseg_421m_swinh.pth` and is
 tracked with Git LFS.
 
+## Convert for DCDepth
+
+The released checkpoint uses the MMPretrain Swin-H parameter names. To use
+this encoder with DCDepth's older Swin v1 implementation, run the bundled
+PyTorch-only converter after downloading the release checkpoint:
+
+```bash
+python tools/mmlab_to_swinv1.py \
+    checkpoints/flowseg_421m_swinh.pth \
+    /path/to/dcdepth_swinh_421m.pth
+```
+
+The converter renames the Swin stages and patch embedding, and applies the
+patch-merging channel-order permutation required by DCDepth. It writes a
+direct state dict compatible with DCDepth's `pretrained` argument and prints
+the output SHA-256. It does not require MMEngine, MMPretrain, or the original
+training repository. Add `--force` to overwrite an existing destination.
+
 ## Single-image inference
 
 ```bash
