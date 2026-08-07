@@ -1,0 +1,10 @@
+# Install the root requirements.txt first. These are the additional packages
+# imported by the DCDepth evaluator and model implementation.
+pytorch-lightning>=1.9
+timm>=0.6
+scipy>=1.10
+easydict>=1.13
+pandas>=2.0
+tqdm>=4.65
+torchvision>=0.16
+mmengine>=0.10

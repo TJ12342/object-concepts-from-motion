@@ -109,14 +109,18 @@ converted encoder is stored at `downstream/DCDepth/checkpoints/swin_h.pth`.
 
 ### 3. Install Depth dependencies
 
-The root `requirements.txt` covers the standalone feature demo. DCDepth's
-original evaluator additionally imports PyTorch Lightning, timm, SciPy,
-EasyDict, pandas, tqdm, torchvision, MMEngine, and MMCV. Install versions
-compatible with the selected PyTorch environment before running the evaluator:
+The root `requirements.txt` covers the standalone feature demo. The DCDepth
+evaluator has a separate dependency list:
 
 ```bash
-pip install pytorch-lightning timm scipy easydict pandas tqdm torchvision mmengine mmcv
+pip install -r downstream/DCDepth/requirements.txt
 ```
+
+The standard `test.py` path uses MMEngine for YAML config inheritance and the
+local model/data registries. It does not require MMCV. The legacy
+`networks/checkpoint.py` helper still contains optional MMCV-based OpenMMLab
+checkpoint-loading code, but it is not imported by the documented Eigen
+evaluation command.
 
 ### 4. Run Eigen evaluation
 
