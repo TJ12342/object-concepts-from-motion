@@ -19,8 +19,7 @@ model:
   type: 'DCTProg'
 
   encoder: 'base07'
-  # Supply a converted Swin-Base checkpoint when using this configuration.
-  pretrain: null
+  pretrain: 'checkpoints/swin_b.pth'
 
   ape: false
   drop_path_rate: 0.3

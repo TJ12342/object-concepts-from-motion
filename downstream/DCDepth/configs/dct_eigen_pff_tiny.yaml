@@ -19,8 +19,7 @@ model:
   type: 'DCTProg'
 
   encoder: 'tiny07'
-  # Supply a converted Swin-Tiny checkpoint when using this configuration.
-  pretrain: null
+  pretrain: 'checkpoints/swin_t.pth'
 
   ape: false
   drop_path_rate: 0.3

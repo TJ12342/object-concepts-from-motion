@@ -41,6 +41,11 @@ repository and the generated file is ignored by Git. It does not require
 MMEngine, MMPretrain, or the original training repository. Add `--force` to
 overwrite an existing destination.
 
+The five Eigen configs use the standard downstream filenames
+`checkpoints/swin_b.pth`, `swin_s.pth`, `swin_t.pth`, `swin_l.pth`, and
+`swin_h.pth`. This release provides the Swin-H weight; the other four paths
+are reserved for matching converted checkpoints.
+
 ## Single-image inference
 
 ```bash

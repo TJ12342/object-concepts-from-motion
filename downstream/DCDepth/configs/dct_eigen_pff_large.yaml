@@ -19,8 +19,7 @@ model:
   type: 'DCTProg'
 
   encoder: 'large07'
-  # Supply a converted Swin-Large checkpoint when using this configuration.
-  pretrain: null
+  pretrain: 'checkpoints/swin_l.pth'
 
   ape: false
   drop_path_rate: 0.3
