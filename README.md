@@ -23,13 +23,15 @@ tracked with Git LFS.
 ## Single-image inference
 
 ```bash
-python tools/feature_visualization.py assets/kitti_highway.jpg \
-    --output assets/kitti_highway_pca.png
+python tools/feature_visualization.py assets/pic1.png \
+    --output assets/pic1_pca.png
 ```
 
-The command prints the dense feature shape and saves a PCA RGB image. The
-default device is CUDA when available and CPU otherwise; use `--device cpu`
-or `--device cuda` to select one explicitly.
+The command center-crops the input to a 16:9 field of view, resizes it to
+512x288, applies the reference model's RGB mean/std normalization, prints the
+dense feature shape, and saves a 512x288 PCA RGB image. The default device is
+CUDA when available; use `--device cpu` or `--device cuda` to select one
+explicitly.
 
 ## Notebook
 
