@@ -1,0 +1,5 @@
+torch>=2.1
+numpy>=1.24
+pillow>=8.2
+matplotlib>=3.7
+notebook>=7.0
