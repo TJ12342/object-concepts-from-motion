@@ -46,6 +46,108 @@ The five Eigen configs use the standard downstream filenames
 `swin_h.pth`. This release provides the Swin-H weight; the other four paths
 are reserved for matching converted checkpoints.
 
+## Depth Task (DCDepth)
+
+The `downstream/DCDepth` directory contains the DCDepth source and Eigen
+configuration. The released Swin-H file is only the encoder. A depth
+prediction also needs a complete, trained DCDepth checkpoint containing the
+CRF, decoder, and depth-update head. That downstream checkpoint is not
+included in this repository because it is large and is a separate task
+artifact.
+
+### 1. Prepare the files
+
+After downloading the release checkpoint, the repository should contain:
+
+```text
+checkpoints/swin_h.pth
+downstream/DCDepth/checkpoints/
+```
+
+Convert the MMPretrain encoder once from the repository root:
+
+```bash
+python tools/mmlab_to_swinv1.py \
+    checkpoints/swin_h.pth \
+    downstream/DCDepth/checkpoints/swin_h.pth
+```
+
+Then place the complete DCDepth Eigen checkpoint at:
+
+```text
+downstream/DCDepth/checkpoints/dcdepth_eigen_huge.ckpt
+```
+
+The converted encoder is ignored by Git, as are downstream task checkpoints
+and evaluation outputs.
+
+### 2. Prepare KITTI Eigen data
+
+The default [eigen_base.yaml](downstream/DCDepth/configs/eigen_base.yaml)
+expects this layout relative to `downstream/DCDepth`:
+
+```text
+downstream/DCDepth/data/kitti/
+├── data_rgb/
+└── data_depth_annotated/
+```
+
+The split files under `downstream/DCDepth/data_splits` provide the relative
+RGB and ground-truth paths. If KITTI is stored elsewhere, edit these four
+fields in `eigen_base.yaml`:
+
+```yaml
+dataset:
+  data_path: '/your/path/to/kitti/'
+  data_path_eval: '/your/path/to/kitti/'
+  gt_path: '/your/path/to/kitti/data_depth_annotated/'
+  gt_path_eval: '/your/path/to/kitti/data_depth_annotated/'
+```
+
+No other path in the default huge configuration needs to be changed when the
+converted encoder is stored at `downstream/DCDepth/checkpoints/swin_h.pth`.
+
+### 3. Install Depth dependencies
+
+The root `requirements.txt` covers the standalone feature demo. DCDepth's
+original evaluator additionally imports PyTorch Lightning, timm, SciPy,
+EasyDict, pandas, tqdm, torchvision, MMEngine, and MMCV. Install versions
+compatible with the selected PyTorch environment before running the evaluator:
+
+```bash
+pip install pytorch-lightning timm scipy easydict pandas tqdm torchvision mmengine mmcv
+```
+
+### 4. Run Eigen evaluation
+
+Run from the DCDepth directory because its original scripts resolve
+`configs/`, `data_splits/`, and `checkpoints/` relative to the current working
+directory:
+
+```bash
+cd downstream/DCDepth
+CUDA_VISIBLE_DEVICES=0 \
+python test.py dct_eigen_pff_huge \
+    checkpoints/dcdepth_eigen_huge.ckpt \
+    --vis
+```
+
+The `dct_eigen_pff_huge.yaml` configuration selects the `huge07` Swin-H
+backbone and reads the converted encoder from `checkpoints/swin_h.pth`. The
+full task checkpoint passed as the second argument must match this model
+configuration.
+
+Metrics are written under:
+
+```text
+downstream/DCDepth/checkpoints/dct_eigen_pff_huge/result.csv
+downstream/DCDepth/checkpoints/dct_eigen_pff_huge/result_avg.csv
+```
+
+With `--vis`, predicted depth visualizations are written to the corresponding
+`vis/` directory. The bundled `test.py` evaluates the KITTI Eigen split; it is
+not a single-image inference script.
+
 ## Single-image inference
 
 ```bash
