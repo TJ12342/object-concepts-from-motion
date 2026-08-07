@@ -1,9 +1,9 @@
 dataset:
   name: 'kitti_eigen'
-  data_path: '/high_perf_store3/l3_data/lianghaoqian/l3_deep/haoqian.liang/datasets/kitti/'
-  data_path_eval: '/high_perf_store3/l3_data/lianghaoqian/l3_deep/haoqian.liang/datasets/kitti/'
-  gt_path: '/high_perf_store3/l3_data/lianghaoqian/l3_deep/haoqian.liang/datasets/kitti/data_depth_annotated/'
-  gt_path_eval: '/high_perf_store3/l3_data/lianghaoqian/l3_deep/haoqian.liang/datasets/kitti/data_depth_annotated/'
+  data_path: 'data/kitti/'
+  data_path_eval: 'data/kitti/'
+  gt_path: 'data/kitti/data_depth_annotated/'
+  gt_path_eval: 'data/kitti/data_depth_annotated/'
   input_width: 1216
   input_height: 352
   min_depth: 1.0

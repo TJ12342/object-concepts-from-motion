@@ -19,7 +19,8 @@ model:
   type: 'DCTProg'
 
   encoder: 'base07'
-  pretrain: '/high_perf_store3/l3_data/lianghaoqian/workspace/depth/NeWCRFs/model_zoo/flowseg48M/swin_base_window7_224_flowseg48M-14d6f2f7.pth'
+  # Supply a converted Swin-Base checkpoint when using this configuration.
+  pretrain: null
 
   ape: false
   drop_path_rate: 0.3

@@ -19,7 +19,8 @@ model:
   type: 'DCTProg'
 
   encoder: 'large07'
-  pretrain: '/high_perf_store3/l3_data/liboshi1/haoqian/workspace/workspace/depth/NeWCRFs/model_zoo/flowseg195M/swinl-0d2cb657.pth'
+  # Supply a converted Swin-Large checkpoint when using this configuration.
+  pretrain: null
 
   ape: false
   drop_path_rate: 0.3

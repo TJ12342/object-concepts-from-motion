@@ -19,7 +19,7 @@ model:
   type: 'DCTProg'
 
   encoder: 'huge07'
-  pretrain: '/high_perf_store3/l3_data/liboshi1/haoqian/workspace/workspace/depth/NeWCRFs/model_zoo/flowseg195M/swin_h_selfboost-0123d33c.pth'
+  pretrain: '../../checkpoints/dcdepth_swinh_421m.pth'
 
   ape: false
   drop_path_rate: 0.3
