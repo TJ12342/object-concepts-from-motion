@@ -4,7 +4,7 @@ optimizer = dict(
     lr=4e-4,
     paramwise_cfg=dict(
         custom_keys=dict(
-            img_backbone=dict(lr_mult=0.5),
+            img_backbone=dict(lr_mult=0.25),
             absolute_pos_embed=dict(decay_mult=0.),
             relative_position_bias_table=dict(decay_mult=0.),
             norm=dict(decay_mult=0.),

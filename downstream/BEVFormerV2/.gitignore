@@ -1,0 +1,6 @@
+data/
+work_dirs/
+*.pth
+*.pkl
+__pycache__/
+*.py[cod]

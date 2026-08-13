@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from copy import deepcopy
+import logging
 from typing import Sequence
 
 import numpy as np
@@ -10,7 +11,7 @@ from mmcv.cnn import build_norm_layer
 from ..utils.transformer import FFN, PatchEmbed, PatchMerging
 from mmcv.runner import BaseModule, ModuleList
 from ..utils.weight_init import trunc_normal_
-from mmengine.utils.dl_utils.parrots_wrapper import _BatchNorm
+from torch.nn.modules.batchnorm import _BatchNorm
 
 from mmdet.models.builder import BACKBONES
 from ..utils import (ShiftWindowMSA, resize_pos_embed,
@@ -507,8 +508,7 @@ class SwinTransformer2(BaseBackbone):
 
         ckpt_pos_embed_shape = state_dict[name].shape
         if self.absolute_pos_embed.shape != ckpt_pos_embed_shape:
-            from mmengine.logging import MMLogger
-            logger = MMLogger.get_current_instance()
+            logger = logging.getLogger(__name__)
             logger.info(
                 'Resize the absolute_pos_embed shape from '
                 f'{ckpt_pos_embed_shape} to {self.absolute_pos_embed.shape}.')
@@ -542,8 +542,7 @@ class SwinTransformer2(BaseBackbone):
                     new_rel_pos_bias = resize_relative_position_bias_table(
                         src_size, dst_size,
                         relative_position_bias_table_pretrained, nH1)
-                    from mmengine.logging import MMLogger
-                    logger = MMLogger.get_current_instance()
+                    logger = logging.getLogger(__name__)
                     logger.info('Resize the relative_position_bias_table from '
                                 f'{state_dict[ckpt_key].shape} to '
                                 f'{new_rel_pos_bias.shape}')
