@@ -54,7 +54,7 @@ training, and evaluation.
 | Task | Framework | Dataset | Documentation |
 | --- | --- | --- | --- |
 | Monocular depth estimation | DCDepth | KITTI | [DCDepth README](downstream/DCDepth/README.md) |
-| 3D object detection | BEVFormer V2 | nuScenes | Coming soon |
+| 3D object detection | BEVFormer V2 | nuScenes | [BEVFormer V2 README](downstream/BEVFormerV2/README.md) |
 | 3D occupancy prediction | SparseOcc | nuScenes | Coming soon |
 
 The main release provides the pretrained representation checkpoint, not a
