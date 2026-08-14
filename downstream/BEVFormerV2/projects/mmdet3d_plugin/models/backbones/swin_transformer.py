@@ -500,6 +500,7 @@ class SwinTransformer2(BaseBackbone):
                 # trick: eval have effect on BatchNorm only
                 if isinstance(m, _BatchNorm):
                     m.eval()
+        return self
 
     def _prepare_abs_pos_embed(self, state_dict, prefix, *args, **kwargs):
         name = prefix + 'absolute_pos_embed'
