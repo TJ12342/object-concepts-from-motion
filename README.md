@@ -28,12 +28,24 @@ The checkpoint uses MMPretrain parameter names and is tracked with Git LFS.
 Task-specific conversion instructions, when required, are documented with the
 corresponding downstream implementation.
 
+The standalone PyTorch model supports all five released Swin configurations.
+Select the checkpoint architecture explicitly when loading the model:
+
+| Variant | Embedding | Stage depths | Attention heads | FPN input channels |
+| --- | ---: | --- | --- | --- |
+| H / huge | 384 | 2, 2, 18, 2 | 12, 24, 48, 96 | 384, 768, 1536, 3072 |
+| L / large | 192 | 2, 2, 18, 2 | 6, 12, 24, 48 | 192, 384, 768, 1536 |
+| B / base | 128 | 2, 2, 18, 2 | 4, 8, 16, 32 | 128, 256, 512, 1024 |
+| S / small | 96 | 2, 2, 18, 2 | 3, 6, 12, 24 | 96, 192, 384, 768 |
+| T / tiny | 96 | 2, 2, 6, 2 | 3, 6, 12, 24 | 96, 192, 384, 768 |
+
 ## Feature Visualization
 
 Run the PyTorch-only visualization demo on a single image:
 
 ```bash
 python tools/feature_visualization.py assets/pic1.png \
+    --arch huge \
     --output assets/pic1_pca.png
 ```
 

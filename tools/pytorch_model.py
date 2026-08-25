@@ -1,10 +1,58 @@
-"""Pure PyTorch inference model for the released Swin-H checkpoint."""
+"""Pure PyTorch inference models for the released Swin checkpoints."""
 
 from typing import Sequence
 
 import torch
 from torch import nn
 from torch.nn import functional as F
+
+
+SWIN_ARCHITECTURES = {
+    "tiny": {
+        "embed_dims": 96,
+        "depths": (2, 2, 6, 2),
+        "num_heads": (3, 6, 12, 24),
+    },
+    "small": {
+        "embed_dims": 96,
+        "depths": (2, 2, 18, 2),
+        "num_heads": (3, 6, 12, 24),
+    },
+    "base": {
+        "embed_dims": 128,
+        "depths": (2, 2, 18, 2),
+        "num_heads": (4, 8, 16, 32),
+    },
+    "large": {
+        "embed_dims": 192,
+        "depths": (2, 2, 18, 2),
+        "num_heads": (6, 12, 24, 48),
+    },
+    "huge": {
+        "embed_dims": 384,
+        "depths": (2, 2, 18, 2),
+        "num_heads": (12, 24, 48, 96),
+    },
+}
+
+SWIN_ARCH_ALIASES = {
+    "t": "tiny",
+    "s": "small",
+    "b": "base",
+    "l": "large",
+    "h": "huge",
+}
+
+
+def canonical_swin_arch(arch):
+    arch = str(arch).lower()
+    arch = SWIN_ARCH_ALIASES.get(arch, arch)
+    if arch not in SWIN_ARCHITECTURES:
+        choices = ", ".join(SWIN_ARCHITECTURES)
+        raise ValueError(
+            f"Unknown Swin architecture {arch!r}; choose from {choices}"
+        )
+    return arch
 
 
 def _to_pair(value):
@@ -265,13 +313,15 @@ class SwinStage(nn.Module):
 
 
 class SwinTransformer(nn.Module):
-    def __init__(self):
+    def __init__(self, arch, drop_path_rate=0.2):
         super().__init__()
-        embed_dims = 384
-        depths = (2, 2, 18, 2)
-        num_heads = (12, 24, 48, 96)
+        self.arch = canonical_swin_arch(arch)
+        config = SWIN_ARCHITECTURES[self.arch]
+        embed_dims = config["embed_dims"]
+        depths = config["depths"]
+        num_heads = config["num_heads"]
         total_depth = sum(depths)
-        drop_paths = [0.2 * index / (total_depth - 1)
+        drop_paths = [drop_path_rate * index / (total_depth - 1)
                       for index in range(total_depth)]
 
         self.patch_embed = PatchEmbed(embed_dims=embed_dims)
@@ -285,10 +335,10 @@ class SwinTransformer(nn.Module):
                 drop_paths[offset:offset + depth],
                 downsample=index < len(depths) - 1))
             offset += depth
-        self.norm0 = nn.LayerNorm(384)
-        self.norm1 = nn.LayerNorm(768)
-        self.norm2 = nn.LayerNorm(1536)
-        self.norm3 = nn.LayerNorm(3072)
+        for index in range(len(depths)):
+            self.add_module(
+                f"norm{index}", nn.LayerNorm(embed_dims * 2**index)
+            )
 
     def forward(self, x):
         x, shape = self.patch_embed(x)
@@ -316,9 +366,10 @@ class ConvOnly(nn.Module):
 
 
 class FPN(nn.Module):
-    def __init__(self):
+    def __init__(self, in_channels):
         super().__init__()
-        in_channels = (384, 768, 1536, 3072)
+        if len(in_channels) != 4:
+            raise ValueError("FPN requires four input channel dimensions")
         self.lateral_convs = nn.ModuleList([
             ConvOnly(channels, 256, 1) for channels in in_channels
         ])
@@ -386,11 +437,13 @@ class SemanticFPNHead(nn.Module):
 
 
 class FlowSegModel(nn.Module):
-    def __init__(self):
+    def __init__(self, arch):
         super().__init__()
-        self.logit_scale = nn.Parameter(torch.ones(()) * 2.659260036932778)
-        self.backbone = SwinTransformer()
-        self.neck = FPN()
+        self.arch = canonical_swin_arch(arch)
+        embed_dims = SWIN_ARCHITECTURES[self.arch]["embed_dims"]
+        in_channels = tuple(embed_dims * 2**index for index in range(4))
+        self.backbone = SwinTransformer(self.arch)
+        self.neck = FPN(in_channels)
         self.head = SemanticFPNHead()
         self.with_head = True
 
@@ -401,4 +454,8 @@ class FlowSegModel(nn.Module):
         return self.head(self.extract_feat(inputs))
 
 
-__all__ = ["FlowSegModel"]
+__all__ = [
+    "FlowSegModel",
+    "SWIN_ARCHITECTURES",
+    "canonical_swin_arch",
+]

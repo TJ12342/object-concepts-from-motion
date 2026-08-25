@@ -16,17 +16,29 @@ if str(TOOLS_ROOT) not in sys.path:
     sys.path.insert(0, str(TOOLS_ROOT))
 
 
-def load_model(checkpoint_path=None, device="cuda"):
-    from pytorch_model import FlowSegModel
+def load_model(checkpoint_path=None, *, arch, device="cuda"):
+    from pytorch_model import FlowSegModel, canonical_swin_arch
 
-    checkpoint_path = checkpoint_path or REPO_ROOT / "checkpoints" / "swin_h.pth"
+    arch = canonical_swin_arch(arch)
+    checkpoint_path = (
+        checkpoint_path
+        or REPO_ROOT / "checkpoints" / f"swin_{arch[0]}.pth"
+    )
     checkpoint = torch.load(
         checkpoint_path, map_location="cpu", mmap=True, weights_only=True)
     state_dict = checkpoint.get("state_dict", checkpoint)
 
+    # Older Swin-H releases contain this unused training-only parameter.
+    if "logit_scale" in state_dict:
+        metadata = getattr(state_dict, "_metadata", None)
+        state_dict = state_dict.copy()
+        state_dict.pop("logit_scale")
+        if metadata is not None:
+            state_dict._metadata = metadata
+
     # Build on meta to avoid allocating a second 3 GB copy before moving to GPU.
     with torch.device("meta"):
-        model = FlowSegModel()
+        model = FlowSegModel(arch=arch)
     model.load_state_dict(state_dict, strict=True, assign=True)
     model = model.to(device).eval()
     return model
@@ -114,9 +126,14 @@ def show_feature_map(model, image_path, device="cuda"):
 
 
 def main():
+    from pytorch_model import SWIN_ARCHITECTURES
+
     parser = argparse.ArgumentParser(
         description="Run one image through the released model and save PCA RGB.")
     parser.add_argument("image", type=Path)
+    parser.add_argument(
+        "--arch", required=True, choices=SWIN_ARCHITECTURES,
+        help="Swin architecture used by the checkpoint")
     parser.add_argument("--checkpoint", type=Path, default=None)
     parser.add_argument("--output", type=Path, default=None)
     parser.add_argument(
@@ -124,7 +141,7 @@ def main():
     args = parser.parse_args()
 
     output = args.output or args.image.with_name(f"{args.image.stem}_pca.png")
-    model = load_model(args.checkpoint, device=args.device)
+    model = load_model(args.checkpoint, arch=args.arch, device=args.device)
     _, feature = extract_feature_map(model, args.image, device=args.device)
     visualization = pca_rgb(feature)
     output.parent.mkdir(parents=True, exist_ok=True)
