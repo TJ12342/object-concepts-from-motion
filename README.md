@@ -17,11 +17,13 @@ downstream directory for its environment and setup instructions.
 
 ## Checkpoint
 
-The inference-only Swin-H checkpoint is about 3.0 GB after removing the
-optimizer and scheduler states. Place it at:
+The inference-only Swin-H and Swin-L checkpoints are about 3.0 GB and 759 MB,
+respectively, after removing the optimizer, schedulers, message hub, and full
+training metadata. Place them at:
 
 ```text
 checkpoints/swin_h.pth
+checkpoints/swin_l.pth
 ```
 
 The checkpoint uses MMPretrain parameter names and is tracked with Git LFS.
@@ -38,6 +40,24 @@ Select the checkpoint architecture explicitly when loading the model:
 | B / base | 128 | 2, 2, 18, 2 | 4, 8, 16, 32 | 128, 256, 512, 1024 |
 | S / small | 96 | 2, 2, 18, 2 | 3, 6, 12, 24 | 96, 192, 384, 768 |
 | T / tiny | 96 | 2, 2, 6, 2 | 3, 6, 12, 24 | 96, 192, 384, 768 |
+
+To export the distilled student backbone, neck, and head from a trusted MMEngine
+training checkpoint, retain only minimal provenance metadata:
+
+```bash
+python tools/export_inference_checkpoint.py \
+    /path/to/epoch_10.pth \
+    /tmp/swin_l.pth \
+    --model-name FlowSeg-421M-SwinL-Distilled \
+    --trust-source
+```
+
+The exporter maps `student_backbone.*`, `student_neck.*`, and `student_head.*`
+to `backbone.*`, `neck.*`, and `head.*`, respectively. It discards all other
+model and training state, verifies every exported tensor, and prints the output
+size and SHA-256. Run it in the trusted source training environment so MMEngine
+checkpoint objects can be imported. Use `--force` to replace an existing
+destination.
 
 ## Feature Visualization
 
