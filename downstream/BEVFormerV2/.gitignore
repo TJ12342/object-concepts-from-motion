@@ -1,5 +1,7 @@
 data/
 work_dirs/
+.env/
+.build/
 *.pth
 *.pkl
 __pycache__/
