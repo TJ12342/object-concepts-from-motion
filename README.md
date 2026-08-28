@@ -6,24 +6,30 @@ integrations for evaluating the released representation.
 
 ## Installation
 
-Install the dependencies for the standalone feature demo:
+The root `requirements.txt` is only for loading the released checkpoints,
+running the standalone PyTorch forward pass, and using the feature
+visualization demo:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Downstream tasks may require additional dependencies. See the README in each
-downstream directory for its environment and setup instructions.
+It is not a complete environment for the downstream tasks. Each downstream
+integration has its own framework versions and dependency constraints; do not
+try to combine all of them in one Python environment.
 
 ## Checkpoint
 
-The inference-only Swin-H and Swin-L checkpoints are about 3.0 GB and 759 MB,
-respectively, after removing the optimizer, schedulers, message hub, and full
-training metadata. Place them at:
+The inference-only checkpoints are exported after removing the optimizer,
+schedulers, message hub, and full training metadata. Place the checkpoints you
+intend to use at:
 
 ```text
 checkpoints/swin_h.pth
 checkpoints/swin_l.pth
+checkpoints/swin_b.pth
+checkpoints/swin_s.pth
+checkpoints/swin_t.pth
 ```
 
 The checkpoint uses MMPretrain parameter names and is tracked with Git LFS.
@@ -79,15 +85,23 @@ within-image feature similarity and are not semantic labels.
 
 ## Downstream Tasks
 
-Each downstream integration is kept self-contained under `downstream/`. Its
-README documents task-specific dependencies, datasets, checkpoint adaptation,
-training, and evaluation.
+Downstream projects are maintained in their own repositories and have
+independent, often incompatible environments. The original upstream README is
+preserved in each corresponding `downstream/*/README.md`; read it first and
+follow that project's installation, dataset, training, and evaluation steps.
+Installing the root requirements alone is not sufficient for downstream
+evaluation.
 
-| Task | Framework | Dataset | Documentation |
+The `FLOWSEG.md` file next to each upstream README contains only the
+FlowSeg-specific integration details: checkpoint paths, adapted configurations,
+and commands for using this release. Use a separate Python environment for
+each downstream project.
+
+| Task | Upstream project and README | Dataset | FlowSeg integration |
 | --- | --- | --- | --- |
-| Monocular depth estimation | DCDepth | KITTI | [DCDepth README](downstream/DCDepth/README.md) |
-| 3D object detection | BEVFormer V2 | nuScenes | [BEVFormer V2 README](downstream/BEVFormerV2/README.md) |
-| 3D occupancy prediction | SparseOcc | nuScenes | [SparseOcc README](downstream/SparseOcc/README.md) |
+| Monocular depth estimation | [DCDepth](https://github.com/w2kun/DCDepth#readme) | KITTI | [Local FlowSeg adapter](downstream/DCDepth/FLOWSEG.md) |
+| 3D object detection | [BEVFormer](https://github.com/fundamentalvision/BEVFormer#readme) | nuScenes | [Local FlowSeg adapter](downstream/BEVFormerV2/FLOWSEG.md) |
+| 3D occupancy prediction | [SparseOcc](https://github.com/MCG-NJU/SparseOcc#readme) | nuScenes | [Local FlowSeg adapter](downstream/SparseOcc/FLOWSEG.md) |
 
 The main release provides the pretrained representation checkpoint, not a
 complete model for every downstream task. Evaluation may therefore require a

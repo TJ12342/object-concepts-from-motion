@@ -37,7 +37,7 @@
 </div>
 
 ## Environment
-The original DCDepth project reported the following reference environment:
+Our code has been tested in the following environment:
 
 ```
 python==3.10.14
@@ -48,20 +48,6 @@ scipy==1.14.0
 mmcv-full==1.7.0
 matplotlib==3.9.0
 ```
-
-For this vendored copy, install the root feature-demo requirements first and
-then the additional packages listed in `requirements.txt` in this directory:
-
-```bash
-cd ../..
-pip install -r requirements.txt
-pip install -r downstream/DCDepth/requirements.txt
-```
-
-The documented Eigen evaluator uses MMEngine for configuration inheritance
-and the local registries. It does not require MMCV. The legacy
-`networks/checkpoint.py` module still contains optional MMCV-based OpenMMLab
-checkpoint helpers, but it is not imported by `test.py`.
 
 ## Dataset
 
