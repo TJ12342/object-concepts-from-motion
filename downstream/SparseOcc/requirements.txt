@@ -1,0 +1,14 @@
+# Install the OpenMMLab packages listed in the README separately with `mim`.
+# These are the additional packages imported by the vendored task code.
+numpy==1.23.5
+setuptools==59.5.0
+nuscenes-devkit
+pyquaternion
+prettytable
+scipy
+scikit-learn
+termcolor
+tqdm
+wandb
+tensorboard
+tbparse
