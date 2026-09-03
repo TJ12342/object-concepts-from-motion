@@ -1,4 +1,4 @@
-# Motion Object Encoder
+<h1 align="center">Object Concepts Emerge from Motion</h1>
 
 <p align="center">
   <a href="https://tj12342.github.io/object-concepts-from-motion/">Project Page</a>
