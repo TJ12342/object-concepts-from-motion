@@ -144,8 +144,8 @@ function initResultCharts() {
     const config = resultChartData[canvas.dataset.resultChart];
     if (!config) return;
 
-    const colors = config.labels.map((label) => (label === "Ours" ? "#f2ba4f" : "#6f847b"));
-    const borders = config.labels.map((label) => (label === "Ours" ? "#ffd477" : "#91a39b"));
+    const colors = config.labels.map((label) => (label === "Ours" ? "#3273dc" : "#6f847b"));
+    const borders = config.labels.map((label) => (label === "Ours" ? "#5b8de3" : "#91a39b"));
 
     new Chart(canvas, {
       type: "bar",
@@ -182,7 +182,7 @@ function initResultCharts() {
             grid: { display: false },
             border: { color: "#6b7b75" },
             ticks: {
-              color: (context) => context.tick.label === "Ours" ? "#8a6200" : "#66756f",
+              color: (context) => context.tick.label === "Ours" ? "#2458ad" : "#66756f",
               font: (context) => ({
                 size: 11,
                 weight: context.tick.label === "Ours" ? "700" : "500",
