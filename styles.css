@@ -143,7 +143,7 @@ body {
 }
 
 .teaser-section {
-  padding: 0 0 2.75rem;
+  padding: 0;
   border-top: 0;
 }
 
@@ -186,10 +186,6 @@ body {
   border-radius: 0;
 }
 
-.teaser-section .publication-figure figcaption {
-  padding: 0 1.5rem;
-}
-
 .section {
   padding: 5rem 1.5rem;
   border-top: 1px solid #eee;
@@ -210,7 +206,7 @@ body {
 }
 
 .section.teaser-section {
-  padding: 0 0 2.75rem;
+  padding: 0;
   border-top: 0;
 }
 
@@ -530,7 +526,7 @@ body {
   }
 
   .section.teaser-section {
-    padding: 0 0 2rem;
+    padding: 0;
   }
 
   .publication-deck {
