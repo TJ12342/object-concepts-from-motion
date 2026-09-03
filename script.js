@@ -144,8 +144,8 @@ function initResultCharts() {
     const config = resultChartData[canvas.dataset.resultChart];
     if (!config) return;
 
-    const colors = config.labels.map((label) => (label === "Ours" ? "#3273dc" : "#6f847b"));
-    const borders = config.labels.map((label) => (label === "Ours" ? "#5b8de3" : "#91a39b"));
+    const colors = config.labels.map((label) => (label === "Ours" ? "#3273dc" : "#8b9bb0"));
+    const borders = config.labels.map((label) => (label === "Ours" ? "#2458ad" : "#aebbc9"));
 
     new Chart(canvas, {
       type: "bar",
@@ -156,7 +156,7 @@ function initResultCharts() {
             data: config.values,
             backgroundColor: colors,
             borderColor: borders,
-            borderWidth: 1,
+            borderWidth: 0,
             borderRadius: 3,
             borderSkipped: false,
             barPercentage: 0.72,
@@ -180,9 +180,9 @@ function initResultCharts() {
         scales: {
           x: {
             grid: { display: false },
-            border: { color: "#6b7b75" },
+            border: { color: "#c4ccd6" },
             ticks: {
-              color: (context) => context.tick.label === "Ours" ? "#2458ad" : "#66756f",
+              color: (context) => context.tick.label === "Ours" ? "#2458ad" : "#64748b",
               font: (context) => ({
                 size: 11,
                 weight: context.tick.label === "Ours" ? "700" : "500",
@@ -196,9 +196,9 @@ function initResultCharts() {
             min: config.min,
             max: config.max,
             border: { display: false },
-            grid: { color: "rgba(107, 123, 117, 0.24)" },
+            grid: { color: "rgba(100, 116, 139, 0.18)" },
             ticks: {
-              color: "#84918d",
+              color: "#7b8794",
               maxTicksLimit: 5,
               padding: 6,
               callback: (value) => Number(value).toFixed(config.digits),

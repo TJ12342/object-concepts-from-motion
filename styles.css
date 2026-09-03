@@ -404,9 +404,9 @@ body {
   height: 230px;
   margin-top: 1.15rem;
   padding: .3rem;
-  border: 1px solid #e1e1e1;
+  border: 1px solid #d9e0e8;
   border-radius: 7px;
-  background: #fafafa;
+  background: #fbfcfe;
 }
 
 .chart-frame canvas {
@@ -423,7 +423,7 @@ body {
 }
 
 .chart-summary strong {
-  color: var(--gold);
+  color: var(--accent);
 }
 
 .chart-method-ours {
