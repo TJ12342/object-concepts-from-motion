@@ -363,7 +363,8 @@ body {
 }
 
 .similarity-figure {
-  max-width: 900px;
+  width: 100%;
+  max-width: 1120px;
   margin-top: 2rem;
 }
 
