@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Object Concepts Emerge from Motion: learning object-centric visual representations from raw video at scale.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Object Concepts Emerge from Motion">
+    <meta property="og:description" content="Motion teaches a single-image encoder which pixels belong to each object.">
+    <meta property="og:image" content="assets/main-teaser.png">
+    <title>Object Concepts Emerge from Motion</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/vendor/bulma.min.css">
+    <link rel="stylesheet" href="styles.css?v=9">
+    <script src="assets/vendor/chart.umd.min.js" defer></script>
+    <script src="script.js?v=6" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <nav class="navbar is-light publication-nav" aria-label="Main navigation">
+      <div class="container is-max-desktop">
+        <div class="navbar-brand"><a class="navbar-item nav-brand" href="#top">Object Concepts Emerge from Motion</a></div>
+        <button class="navbar-burger" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="publication-menu"><span></span><span></span><span></span></button>
+        <div class="navbar-menu" id="publication-menu">
+          <div class="navbar-end">
+            <a class="navbar-item" href="#idea">Idea</a><a class="navbar-item" href="#method">Method</a><a class="navbar-item" href="#representation">Representation</a><a class="navbar-item" href="#results">Results</a><a class="navbar-item" href="#citation">Citation</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main id="main-content">
+      <section class="hero publication-hero" id="top">
+        <div class="hero-body">
+          <div class="container is-max-desktop has-text-centered">
+            <h1 class="title publication-title">Object Concepts Emerge from Motion</h1>
+            <p class="subtitle publication-deck">Learning object-centric visual representations from raw videos at scale.</p>
+            <div class="publication-authors"><span class="author-block">Boshi Li<sup>1</sup>,</span> <span class="author-block">Xiaohui Wang<sup>3</sup>,</span> <span class="author-block">Xiaoyang Wu<sup>2</sup>,</span> <span class="author-block">Zhichao Li<sup>3</sup>,</span> <span class="author-block">Ya Yang<sup>1</sup>,</span> <span class="author-block">and Naiyan Wang<sup>3</sup></span></div>
+            <div class="publication-affiliations"><sup>1</sup> Beijing University of Posts and Telecommunications · <sup>2</sup> The University of Hong Kong · <sup>3</sup> Xiaomi EV</div>
+            <div class="publication-links buttons are-medium is-centered">
+              <a class="button is-dark" href="https://doi.org/10.52202/085713-5103" target="_blank" rel="noreferrer"><span class="icon"><img src="assets/icons/file-text.svg" alt=""></span><span>NeurIPS paper</span></a>
+              <span class="button is-light is-static"><span class="icon"><img src="assets/icons/code.svg" alt=""></span><span>Code</span><small>soon</small></span>
+              <span class="button is-light is-static"><span class="icon"><img src="assets/icons/package.svg" alt=""></span><span>Models</span><small>soon</small></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section teaser-section">
+        <div class="container teaser-container">
+          <figure class="publication-figure"><img src="assets/main-teaser.png" alt="A street scene progressing from static appearance, through optical-flow groupings, to coherent object concepts."><figcaption>Motion provides the missing grouping signal: coherent movement reveals object unity, which is internalized as object-centric structure in a static image encoder.</figcaption></figure>
+        </div>
+      </section>
+
+      <section class="section is-light" id="idea">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered"><div class="column is-four-fifths has-text-centered"><h2 class="title is-3">Motion is the teacher. The image encoder is the student.</h2><div class="content has-text-justified"><p>Infants use common motion to perceive object unity before they can recognize objects from appearance alone. We turn that developmental cue into a scalable learning signal for machine perception.</p><p>Optical-flow boundaries become category-agnostic pseudo-instance masks. A pairwise metric-learning objective pulls pixels from the same object together and pushes different objects apart. Motion is needed only during pretraining; the resulting backbone consumes a single image.</p></div></div></div>
+          <div class="columns project-stats is-centered"><div class="column"><strong>7,163</strong><span>hours of heterogeneous video</span></div><div class="column"><strong>195M</strong><span>motion-derived frames</span></div><div class="column"><strong>421M</strong><span>motion-verified frames</span></div><div class="column"><strong>4</strong><span>downstream tasks</span></div></div>
+        </div>
+      </section>
+
+      <section class="section" id="method">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered"><div class="column is-four-fifths has-text-centered"><h2 class="title is-3">Two cycles, one geometric signal</h2><p class="section-lead">Conservative motion labels first establish reliable object structure. A second cycle recovers useful supervision that incomplete flow boundaries leave behind.</p></div></div>
+          <div class="tabs is-centered is-toggle is-toggle-rounded method-tabs" role="tablist"><ul><li class="is-active"><a id="cycle-one-tab" role="tab" aria-selected="true" aria-controls="method-panel" data-method="cycle-one"><span>01</span>&nbsp; Motion-derived supervision</a></li><li><a id="cycle-two-tab" role="tab" aria-selected="false" aria-controls="method-panel" data-method="cycle-two"><span>02</span>&nbsp; Motion-verified self-training</a></li></ul></div>
+          <div class="method-panel" id="method-panel" role="tabpanel" aria-labelledby="cycle-one-tab"><figure class="publication-figure"><img id="method-image" src="assets/cycle-one-web-v2.png" alt="Cycle one pipeline from video frames and optical flow to pseudo-instance labels and pairwise representation learning."></figure><div class="method-caption has-text-centered"><p class="publication-venue" id="method-kicker">Cycle 1 · high precision</p><h3 class="title is-4" id="method-title">Turn motion boundaries into object supervision</h3><p id="method-description">Optical flow and pixel clustering produce pseudo-instance labels. The labels organize dense features around object unity and instance separation through pairwise metric learning.</p><dl class="method-facts" id="method-facts"><div><dt>Input</dt><dd>Raw videos</dd></div><div><dt>Labels</dt><dd>195M frames</dd></div><div><dt>Output</dt><dd>Single-image encoder</dd></div></dl></div></div>
+        </div>
+      </section>
+
+      <section class="section is-light" id="scaling"><div class="container is-max-desktop"><div class="has-text-centered"><h2 class="title is-3">More video. More supervision. A transferable family.</h2><p class="section-lead">The journal version scales the data engine, recovers incomplete motion evidence, and distills one large teacher into compact backbones.</p></div><div class="columns scaling-grid"><div class="column"><div class="box"><p class="publication-venue">01 · DATA</p><h3 class="title is-5">7,163 hours from four video sources</h3><p>OpenDV-YouTube, nuPlan, NVIDIA PhysicalAI-Autonomous-Vehicles, and self-collected web videos form one heterogeneous pretraining corpus.</p></div></div><div class="column"><div class="box"><p class="publication-venue">02 · SUPERVISION</p><h3 class="title is-5">195M → 421M pseudo-labeled frames</h3><p>Motion-Verified Self-Training combines appearance proposals with independent flow evidence to expand coverage.</p></div></div><div class="column"><div class="box"><p class="publication-venue">03 · MODEL FAMILY</p><h3 class="title is-5">Swin-H teacher, distilled to T / S / B / L</h3><p>A large Cycle-2 encoder provides dense targets; compact students retain its object-level organization.</p></div></div></div></div></section>
+
+      <section class="section" id="representation"><div class="container is-max-desktop"><div class="has-text-centered"><h2 class="title is-3">Objects remain coherent. Instances remain distinct.</h2><p class="section-lead">Compare PCA feature maps from common appearance-based pretraining objectives with our motion-derived representation.</p></div><div class="tabs is-centered is-toggle is-toggle-rounded feature-tabs" role="tablist"><ul><li><a role="tab" aria-selected="false" data-feature="dinov3">DINOv3</a></li><li><a role="tab" aria-selected="false" data-feature="clip">CLIP</a></li><li><a role="tab" aria-selected="false" data-feature="mae">MAE</a></li><li class="is-active"><a role="tab" aria-selected="true" data-feature="ours">Ours</a></li></ul></div><div class="columns feature-grid"><figure class="column box feature-sample"><div class="feature-pair"><div><span>Input</span><img src="assets/teaser-road.jpg" alt="Road scene input image."></div><div><span class="feature-name">Ours</span><img class="feature-output" data-scene="road" src="assets/teaser-road-ours.jpg" alt="Our PCA feature map for the road scene."></div></div></figure><figure class="column box feature-sample"><div class="feature-pair"><div><span>Input</span><img src="assets/teaser-urban.jpg" alt="Urban scene input image."></div><div><span class="feature-name">Ours</span><img class="feature-output" data-scene="urban" src="assets/teaser-urban-ours.jpg" alt="Our PCA feature map for the urban scene."></div></div></figure></div><figure class="publication-figure similarity-figure"><img src="assets/similarity-panels.png" alt="Reference-point similarity maps localized around coherent objects."><figcaption><strong>Reference-point similarity.</strong> A point on an object activates its coherent region while suppressing adjacent instances and background structure.</figcaption></figure></div></section>
+
+      <section class="section is-light" id="results"><div class="container is-max-desktop"><div class="has-text-centered"><h2 class="title is-3">Downstream tasks</h2><p class="section-lead">A matched view of the latest paper results across dense geometry, instance-sensitive perception, and closed-loop-relevant planning.</p></div><div class="columns is-multiline result-grid"><article class="column is-half"><div class="box result-item"><span class="result-index">01</span><h3 class="title is-5">Monocular depth</h3><p>KITTI Eigen · DCDepth · higher is better</p><div class="chart-frame"><canvas id="depth-chart" data-result-chart="depth" role="img" aria-label="KITTI delta one comparison at L scale"></canvas></div><p class="chart-summary"><strong>δ1 ↑</strong> · Ours 0.988 · DINOv3 0.986 · DINOv2 0.980 · SimMIM 0.979 · IN-22K 0.977</p></div></article><article class="column is-half"><div class="box result-item"><span class="result-index">02</span><h3 class="title is-5">3D object detection</h3><p>nuScenes · BEVFormer V2 · 1600 × 900</p><div class="chart-frame"><canvas id="detection-chart" data-result-chart="detection" role="img" aria-label="nuScenes NDS comparison at L scale"></canvas></div><p class="chart-summary"><strong>NDS ↑</strong> · Ours 55.89 · SimMIM 54.98 · IN-22K 54.59</p></div></article><article class="column is-half"><div class="box result-item"><span class="result-index">03</span><h3 class="title is-5">3D occupancy</h3><p>nuScenes · SparseOcc</p><div class="chart-frame"><canvas id="occupancy-chart" data-result-chart="occupancy" role="img" aria-label="nuScenes RayIoU comparison at L scale"></canvas></div><p class="chart-summary"><strong>RayIoU ↑</strong> · Ours 40.04 · DINOv3 41.02 · DINOv2 39.00 · SimMIM 38.60 · IN-22K 37.60</p></div></article><article class="column is-half"><div class="box result-item"><span class="result-index">04</span><h3 class="title is-5">End-to-end planning</h3><p>NAVSIMv2 · DriveSuprim</p><div class="chart-frame"><canvas id="planning-chart" data-result-chart="planning" role="img" aria-label="NAVSIMv2 EPDMS comparison at L scale"></canvas></div><p class="chart-summary"><strong>EPDMS ↑</strong> · DA-ViT-L 90.5 · DINOv3-L 89.0 · Ours 88.9 · DINOv2-L 87.2</p></div></article></div><p class="results-note has-text-centered">Task-local scales emphasize within-task differences; exact values are labeled and bar heights are not comparable across tasks.</p></div></section>
+
+      <section class="section" id="citation"><div class="container is-max-desktop"><div class="columns is-centered"><div class="column is-four-fifths has-text-centered"><h2 class="title is-3">Cite this work</h2><p class="section-lead">NeurIPS 2025 · Volume 38 · pp. 169422–169444</p><div class="bibtex-wrap"><button class="button is-dark copy-button" type="button" data-copy-citation><span class="icon"><img src="assets/icons/copy.svg" alt=""></span><span>Copy BibTeX</span></button><pre id="bibtex"><code>@inproceedings{liang2025object,
+  title     = {Object Concepts Emerge from Motion},
+  author    = {Liang, Haoqian and Wang, Xiaohui and Li, Zhichao and Yang, Ya and Wang, Naiyan},
+  booktitle = {Advances in Neural Information Processing Systems},
+  volume    = {38},
+  pages     = {169422--169444},
+  year      = {2025},
+  doi       = {10.52202/085713-5103}
+}</code></pre></div></div></div></div></section>
+    </main>
+    <footer class="footer"><div class="content has-text-centered"><p>Object Concepts Emerge from Motion</p></div></footer>
+  </body>
+</html>
