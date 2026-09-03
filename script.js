@@ -7,11 +7,6 @@ const methodContent = {
     title: "Turn motion boundaries into object supervision",
     description:
       "Optical flow and pixel clustering produce pseudo-instance labels. The labels organize dense features around object unity and instance separation through pairwise metric learning.",
-    facts: [
-      ["Input", "Raw videos"],
-      ["Labels", "195M frames"],
-      ["Output", "Single-image encoder"],
-    ],
   },
   "cycle-two": {
     tab: "cycle-two-tab",
@@ -21,11 +16,6 @@ const methodContent = {
     title: "Recover the motion evidence Cycle 1 leaves behind",
     description:
       "A frozen encoder proposes complete masks. Proposal-independent optical flow then refines and verifies them before training, increasing coverage without accepting model proposals at face value.",
-    facts: [
-      ["Proposal", "Frozen Swin-H"],
-      ["Verify", "Optical flow"],
-      ["Labels", "421M frames"],
-    ],
   },
 };
 
@@ -54,9 +44,6 @@ function renderMethod(methodKey) {
   document.querySelector("#method-kicker").textContent = content.kicker;
   document.querySelector("#method-title").textContent = content.title;
   document.querySelector("#method-description").textContent = content.description;
-  document.querySelector("#method-facts").innerHTML = content.facts
-    .map(([term, detail]) => `<div><dt>${term}</dt><dd>${detail}</dd></div>`)
-    .join("");
   panel.setAttribute("aria-labelledby", content.tab);
 }
 
@@ -195,8 +182,12 @@ function initResultCharts() {
             grid: { display: false },
             border: { color: "#6b7b75" },
             ticks: {
-              color: "#abb6b2",
-              font: { size: 10, family: "ui-monospace, SFMono-Regular, Menlo, monospace" },
+              color: (context) => context.tick.label === "Ours" ? "#8a6200" : "#66756f",
+              font: (context) => ({
+                size: 11,
+                weight: context.tick.label === "Ours" ? "700" : "500",
+                family: "ui-monospace, SFMono-Regular, Menlo, monospace",
+              }),
               maxRotation: 0,
               autoSkip: false,
             },
