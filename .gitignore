@@ -2,5 +2,6 @@ __pycache__/
 .ipynb_checkpoints/
 *.py[cod]
 checkpoints/
+tools/export_inference_checkpoint.py
 assets/*_pca.png
 assets/*_pca_preview.png

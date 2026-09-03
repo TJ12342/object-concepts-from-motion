@@ -1,5 +1,13 @@
 # Motion Object Encoder
 
+<p align="center">
+  <a href="https://tj12342.github.io/object-concepts-from-motion/">Project Page</a>
+  &nbsp;|&nbsp;
+  <span>&#128196; Paper (coming soon)</span>
+  &nbsp;|&nbsp;
+  <a href="https://huggingface.co/tj111/object-concepts-from-motion">Models</a>
+</p>
+
 This repository provides a minimal inference-only demo for visualizing the
 dense features of our pretrained Swin-H model, together with downstream task
 integrations for evaluating the released representation.
@@ -18,23 +26,11 @@ It is not a complete environment for the downstream tasks. Each downstream
 integration has its own framework versions and dependency constraints; do not
 try to combine all of them in one Python environment.
 
-## Checkpoint
 
-The inference-only checkpoints are exported after removing the optimizer,
-schedulers, message hub, and full training metadata. Place the checkpoints you
-intend to use at:
 
-```text
-checkpoints/swin_h.pth
-checkpoints/swin_l.pth
-checkpoints/swin_b.pth
-checkpoints/swin_s.pth
-checkpoints/swin_t.pth
-```
-
-The checkpoint uses MMPretrain parameter names and is tracked with Git LFS.
-Task-specific conversion instructions, when required, are documented with the
-corresponding downstream implementation.
+The checkpoint uses MMPretrain parameter names and is stored on
+Hugging Face. Task-specific conversion instructions, when required, are
+documented with the corresponding downstream implementation.
 
 The standalone PyTorch model supports all five released Swin configurations.
 Select the checkpoint architecture explicitly when loading the model:
@@ -46,24 +42,6 @@ Select the checkpoint architecture explicitly when loading the model:
 | B / base | 128 | 2, 2, 18, 2 | 4, 8, 16, 32 | 128, 256, 512, 1024 |
 | S / small | 96 | 2, 2, 18, 2 | 3, 6, 12, 24 | 96, 192, 384, 768 |
 | T / tiny | 96 | 2, 2, 6, 2 | 3, 6, 12, 24 | 96, 192, 384, 768 |
-
-To export the distilled student backbone, neck, and head from a trusted MMEngine
-training checkpoint, retain only minimal provenance metadata:
-
-```bash
-python tools/export_inference_checkpoint.py \
-    /path/to/epoch_10.pth \
-    /tmp/swin_l.pth \
-    --model-name FlowSeg-421M-SwinL-Distilled \
-    --trust-source
-```
-
-The exporter maps `student_backbone.*`, `student_neck.*`, and `student_head.*`
-to `backbone.*`, `neck.*`, and `head.*`, respectively. It discards all other
-model and training state, verifies every exported tensor, and prints the output
-size and SHA-256. Run it in the trusted source training environment so MMEngine
-checkpoint objects can be imported. Use `--force` to replace an existing
-destination.
 
 ## Feature Visualization
 
