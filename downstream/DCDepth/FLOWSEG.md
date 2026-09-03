@@ -7,6 +7,26 @@ Follow that README first.
 
 Upstream project: [w2kun/DCDepth](https://github.com/w2kun/DCDepth)
 
+## Checkpoint conversion
+
+The released checkpoints use MMPretrain Swin parameter names, while DCDepth
+uses an older Swin v1 implementation. After downloading a representation
+checkpoint, run the bundled converter from the repository root:
+
+```bash
+python tools/mmlab_to_swinv1.py \
+    checkpoints/swin_h.pth \
+    downstream/DCDepth/checkpoints/swin_h.pth
+```
+
+The converter renames the Swin stages and patch embedding, applies the
+patch-merging channel-order permutation required by DCDepth, and writes a
+direct state dict compatible with DCDepth's `pretrained` argument. It is
+implemented with PyTorch only; MMEngine, MMPretrain, and the original training
+repository are not required. The output checkpoint is ignored by Git. Add
+`--force` to overwrite an existing destination. Replace `swin_h` in both
+paths when preparing another Swin configuration.
+
 ## Configurations
 
 The FlowSeg adapter provides Eigen-evaluation configurations for all released
