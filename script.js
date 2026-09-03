@@ -26,6 +26,38 @@ const featureNames = {
   ours: "Ours",
 };
 
+const imagePreloadCache = new Map();
+
+function preloadImage(url) {
+  if (imagePreloadCache.has(url)) return imagePreloadCache.get(url);
+
+  const image = new Image();
+  image.decoding = "async";
+  image.fetchPriority = "low";
+  image.src = url;
+  const ready = typeof image.decode === "function"
+    ? image.decode().catch(() => {})
+    : Promise.resolve();
+  imagePreloadCache.set(url, ready);
+  return ready;
+}
+
+function preloadAlternateImages() {
+  const urls = [
+    ...Object.values(methodContent).map((content) => content.image),
+    ...["road", "urban"].flatMap((scene) =>
+      ["dinov3", "clip", "mae", "ours"].map((feature) => `assets/teaser-${scene}-${feature}.jpg`),
+    ),
+  ];
+  urls.forEach(preloadImage);
+}
+
+const schedulePreload = window.requestIdleCallback
+  ? (callback) => window.requestIdleCallback(callback, { timeout: 2000 })
+  : (callback) => window.setTimeout(callback, 800);
+
+window.addEventListener("load", () => schedulePreload(preloadAlternateImages), { once: true });
+
 function renderMethod(methodKey) {
   const content = methodContent[methodKey];
   if (!content) return;
