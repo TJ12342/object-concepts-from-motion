@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://tj12342.github.io/object-concepts-from-motion/">Project Page</a>
   &nbsp;|&nbsp;
-  <span>&#128196; Paper (coming soon)</span>
+  <a href="https://tj12342.github.io/object-concepts-from-motion/assets/paper.pdf">&#128196; Paper</a>
   &nbsp;|&nbsp;
   <a href="https://huggingface.co/tj111/object-concepts-from-motion">Models</a>
 </p>
