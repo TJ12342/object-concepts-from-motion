@@ -19,7 +19,7 @@
 <p align="center">
   <a href="https://tj12342.github.io/object-concepts-from-motion/"><img src="https://img.shields.io/badge/Project%20Page-Object%20Concepts-4385F5" alt="Project Page"></a>
   <a href="https://arxiv.org/abs/2609.04348"><img src="https://img.shields.io/badge/Paper-arXiv-b31b1b" alt="arXiv"></a>
-  <a href="https://huggingface.co/tj111/object-concepts-from-motion"><img src="https://img.shields.io/badge/Models-Hugging%20Face-ffcc4d?logo=huggingface&logoColor=black" alt="Hugging Face"></a>
+  <a href="https://huggingface.co/tj111/object-concepts-from-motion"><img src="https://img.shields.io/badge/Models-Hugging%20Face-ffcc4d" alt="Hugging Face"></a>
 </p>
 
 <p align="center">
