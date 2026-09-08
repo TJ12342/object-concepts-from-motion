@@ -54,16 +54,7 @@ This repository contains a minimal, inference-only PyTorch implementation of the
 | :---: | :---: | :---: | :---: | :---: |
 | heterogeneous video | Cycle-1 frames | Cycle-2 frames | Swin variants | paper tasks |
 
-## The idea in one picture
 
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TJ12342/object-concepts-from-motion/homepage-pages/assets/cycle-one-web-v2.png" width="98%" alt="Cycle 1 converts optical flow into pseudo-instance labels for pairwise representation learning">
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TJ12342/object-concepts-from-motion/homepage-pages/assets/cycle-two-web.png" width="98%" alt="Cycle 2 verifies model proposals with motion evidence to expand pseudo-label coverage">
-</p>
 
 The framework has two training cycles:
 
